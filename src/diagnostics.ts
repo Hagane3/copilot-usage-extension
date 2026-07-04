@@ -15,8 +15,8 @@ interface RawEvent {
  * Reads the last `limit` llm_request lines across all log files (newest files first).
  * Returns the raw parsed JSON objects so we can inspect every field.
  */
-async function collectRawEvents(limit: number, extraRoots: string[]): Promise<RawEvent[]> {
-  const logFiles = await findLogFiles(extraRoots);
+async function collectRawEvents(limit: number): Promise<RawEvent[]> {
+  const logFiles = await findLogFiles();
   if (logFiles.length === 0) {
     return [];
   }
@@ -188,8 +188,7 @@ function formatValue(v: unknown, indent = 0): string {
 
 export function registerDiagnosticsCommand(
   context: vscode.ExtensionContext,
-  storageDir: string,
-  extraRoots: string[] = []
+  storageDir: string
 ): void {
   const channel = vscode.window.createOutputChannel('Copilot Credits — Diagnostics');
   context.subscriptions.push(channel);
@@ -230,7 +229,7 @@ export function registerDiagnosticsCommand(
         channel.appendLine('='.repeat(60));
 
         // ── File discovery summary ────────────────────────────
-        const allFiles = await findLogFiles(extraRoots);
+        const allFiles = await findLogFiles();
         const editorDataDir = getVsCodeDataDir();
         const userDir = path.join(editorDataDir, 'User');
 
@@ -268,7 +267,7 @@ export function registerDiagnosticsCommand(
         channel.appendLine('LAST 20 llm_request EVENTS');
         channel.appendLine('='.repeat(60));
 
-        const events = await collectRawEvents(20, extraRoots);
+        const events = await collectRawEvents(20);
 
         if (events.length === 0) {
           channel.appendLine('No llm_request events found in any log file.');

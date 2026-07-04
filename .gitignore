@@ -4,6 +4,6 @@ dist/
 *.vsix
 .DS_Store
 
-dev-fixtures/store/
-dev-fixtures/workspaceStorage/
-dev-fixtures/manifest.json
+.vscode/
+dev-fixtures/
+scripts/

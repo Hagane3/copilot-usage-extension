@@ -2,7 +2,7 @@
   "name": "copilot-credits-tracker",
   "displayName": "Copilot Credits Tracker",
   "description": "Shows monthly GitHub Copilot AI credit usage from local Copilot Chat debug logs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "hagane3333",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -61,11 +61,6 @@
           "default": 0,
           "minimum": 0,
           "description": "Show a VS Code notification when a single request costs more than this many AIU (0 = disabled)."
-        },
-        "copilotCredits.useDevFixtures": {
-          "type": "boolean",
-          "default": false,
-          "description": "Development only: read synthetic Copilot logs from dev-fixtures/ in the extension folder instead of real VS Code workspaceStorage."
         }
       }
     }
@@ -74,16 +69,11 @@
     "compile": "tsc -p tsconfig.json",
     "build": "node esbuild.js",
     "test": "npm run compile && node --test out/test/usageParser.test.js out/test/monthlyAggregator.test.js",
-    "dev:fixtures": "node scripts/generateDevFixtures.js",
-    "dev:host": "bash scripts/run-dev-host.sh",
-    "vscode:prepublish": "npm run build",
-    "package": "npm run build && vsce package",
-    "publish:marketplace": "npm run build && vsce publish"
+    "vscode:prepublish": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.80.0",
-    "@vscode/vsce": "^3.7.0",
     "esbuild": "^0.25.0",
     "typescript": "^5.4.0"
   }

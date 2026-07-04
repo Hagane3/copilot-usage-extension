@@ -4,12 +4,17 @@ All notable changes to this project are documented in this file.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.2] - 2026-07-04
+
+### Changed
+
+- README improvements.
+
 ## [1.0.1] - 2026-07-04
 
 ### Changed
 
-- README rewritten for end users (Marketplace listing).
-- Marketplace publisher set to `hagane3333`.
+- README rewritten for end users.
 
 ## [1.0.0] - 2026-07-04
 
@@ -26,13 +31,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Persistent event store in extension globalStorage (survives VS Code workspace log cleanup).
 - Log scanner across all VS Code profiles and rotated `*.jsonl` files.
 - Diagnostics command with allowlist-based redaction.
-- Dev fixtures workflow (`npm run dev:fixtures`, auto-enable in Extension Development Host).
-- Unit tests for parser and monthly aggregator.
 
 ### Security
 
 - Metadata-only parsing and storage — no prompts, messages, or code persisted.
 - Webview CSP and HTML escaping; no network access at runtime.
 
+[1.0.2]: https://github.com/Hagane3/copilot-usage-extension/releases/tag/v1.0.2
 [1.0.1]: https://github.com/Hagane3/copilot-usage-extension/releases/tag/v1.0.1
 [1.0.0]: https://github.com/Hagane3/copilot-usage-extension/releases/tag/v1.0.0

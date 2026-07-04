@@ -4,7 +4,7 @@ Track your monthly **GitHub Copilot AI credit (AIU)** usage inside VS Code — b
 
 > **Not affiliated with GitHub or Microsoft.** Reads local Copilot Chat debug logs on your machine only. No API keys, no network calls, no data sent anywhere.
 
-**Install:** [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=hagane3333.copilot-credits-tracker) · Requires VS Code 1.80+ and GitHub Copilot Chat
+**Install:** search **Copilot Credits Tracker** in the VS Code Extensions view · Requires VS Code 1.80+ and GitHub Copilot Chat
 
 ---
 
@@ -39,7 +39,7 @@ Example:
 
 ```json
 {
-  "copilotCredits.monthlyBudgetAiu": 2333,
+  "copilotCredits.monthlyBudgetAiu": 1500,
   "copilotCredits.expensiveRequestThresholdAiu": 5
 }
 ```
@@ -83,11 +83,11 @@ After a week of normal use with the extension installed, figures should closely 
 - Everything stays in VS Code’s local storage on your computer.
 - The chart and diagnostics do not load external resources.
 
-To reset stored history, remove the extension’s data folder under VS Code `globalStorage` (`hagane3333.copilot-credits-tracker`).
+To reset stored history, uninstall the extension or remove its folder under VS Code **globalStorage**.
 
 ---
 
 ## Support
 
-- **Issues & feedback:** [github.com/Hagane3/copilot-usage-extension/issues](https://github.com/Hagane3/copilot-usage-extension/issues)
+- **Issues & feedback:** [GitHub Issues](https://github.com/Hagane3/copilot-usage-extension/issues)
 - **License:** [MIT](./LICENSE)

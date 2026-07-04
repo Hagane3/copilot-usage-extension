@@ -7,12 +7,6 @@ import { UiPresenter, TooltipStats } from './uiPresenter';
 import { showUsageChart } from './chartView';
 import { registerDiagnosticsCommand } from './diagnostics';
 import { persistNewEvents, loadPersistedEvents } from './eventStore';
-import {
-  shouldUseDevFixtures,
-  hasDevFixtures,
-  getDevFixturesRoot,
-  getDevStoreDir,
-} from './devFixtures';
 
 interface ScanResult {
   logFiles: string[];
@@ -20,17 +14,14 @@ interface ScanResult {
   allEvents: UsageEvent[];
 }
 
-async function scan(storageDir: string, extraRoots: string[]): Promise<ScanResult> {
-  const logFiles = await findLogFiles(extraRoots);
+async function scan(storageDir: string): Promise<ScanResult> {
+  const logFiles = await findLogFiles();
   const freshEvents =
     logFiles.length === 0
       ? []
       : (await Promise.all(logFiles.map((f) => parseLogFile(f)))).flat();
 
-  // Persist new events so they survive workspaceStorage cleanup
   await persistNewEvents(freshEvents, storageDir);
-
-  // Load the full historical dataset (includes today's fresh events)
   const allEvents = await loadPersistedEvents(storageDir);
 
   return { logFiles, allEvents };
@@ -69,17 +60,14 @@ function buildTooltipStats(allEvents: UsageEvent[], budgetAiu: number): TooltipS
   const now = new Date();
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
-  // Week starts on Monday
-  const dow = (now.getDay() + 6) % 7; // 0 = Mon
+  const dow = (now.getDay() + 6) % 7;
   const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dow).getTime();
-
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
 
   const todayEvts = allEvents.filter((e) => e.ts >= todayStart);
   const weekEvts  = allEvents.filter((e) => e.ts >= weekStart);
   const monthEvts = allEvents.filter((e) => e.ts >= monthStart);
 
-  // Top model by AIU this month
   const modelAiu = new Map<string, number>();
   for (const e of monthEvts) {
     modelAiu.set(e.model, (modelAiu.get(e.model) ?? 0) + e.nanoAiu / 1e9);
@@ -98,24 +86,14 @@ function buildTooltipStats(allEvents: UsageEvent[], budgetAiu: number): TooltipS
   };
 }
 
-function getScanExtraRoots(context: vscode.ExtensionContext): string[] {
-  if (!shouldUseDevFixtures(context)) {
-    return [];
-  }
-  return [getDevFixturesRoot(context.extensionPath)];
-}
-
-function getStorageDir(context: vscode.ExtensionContext): string {
-  if (shouldUseDevFixtures(context)) {
-    return getDevStoreDir(context.extensionPath);
-  }
-  return context.globalStorageUri.fsPath;
-}
-
-async function runScan(presenter: UiPresenter, storageDir: string, context: vscode.ExtensionContext): Promise<void> {
+async function runScan(
+  presenter: UiPresenter,
+  storageDir: string,
+  context: vscode.ExtensionContext
+): Promise<void> {
   presenter.setLoading();
   try {
-    const { allEvents } = await scan(storageDir, getScanExtraRoots(context));
+    const { allEvents } = await scan(storageDir);
     const usage  = aggregateCurrentMonth(allEvents);
     const budget = getCfg<number>('monthlyBudgetAiu', 0);
     const stats  = buildTooltipStats(allEvents, budget);
@@ -137,34 +115,14 @@ function debounce(fn: () => void, ms: number): () => void {
 }
 
 export function activate(context: vscode.ExtensionContext): void {
-  const storageDir = getStorageDir(context);
-  const extraRoots = getScanExtraRoots(context);
-  const usingDevFixtures = shouldUseDevFixtures(context);
-
-  if (usingDevFixtures && !hasDevFixtures(context.extensionPath)) {
-    void vscode.window.showWarningMessage(
-      'Copilot Credits: dev fixtures not found. Run `npm run dev:fixtures` in the extension folder, then Refresh.'
-    );
-  } else if (
-    usingDevFixtures &&
-    !context.globalState.get<boolean>('devFixturesAnnounced')
-  ) {
-    void context.globalState.update('devFixturesAnnounced', true);
-    void vscode.window.showInformationMessage(
-      'Copilot Credits: using synthetic dev fixtures (dev-fixtures/).'
-    );
-  }
+  const storageDir = context.globalStorageUri.fsPath;
 
   const presenter = new UiPresenter();
   context.subscriptions.push(presenter);
 
   runScan(presenter, storageDir, context);
 
-  const watchDir =
-    extraRoots.length > 0
-      ? extraRoots[0]
-      : path.join(getVsCodeDataDir(), 'User', 'workspaceStorage');
-
+  const watchDir = path.join(getVsCodeDataDir(), 'User', 'workspaceStorage');
   const debouncedScan = debounce(() => runScan(presenter, storageDir, context), 1000);
 
   const watcher = vscode.workspace.createFileSystemWatcher(
@@ -183,8 +141,7 @@ export function activate(context: vscode.ExtensionContext): void {
       'copilotCredits.showMonthlyUsage',
       async () => {
         try {
-          const { logFiles, allEvents } = await scan(storageDir, extraRoots);
-
+          const { logFiles, allEvents } = await scan(storageDir);
           const now = new Date();
 
           showUsageChart(context, {
@@ -209,7 +166,7 @@ export function activate(context: vscode.ExtensionContext): void {
     })
   );
 
-  registerDiagnosticsCommand(context, storageDir, extraRoots);
+  registerDiagnosticsCommand(context, storageDir);
 }
 
 export function deactivate(): void {}
