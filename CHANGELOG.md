@@ -27,4 +27,4 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Metadata-only parsing and storage — no prompts, messages, or code persisted.
 - Webview CSP and HTML escaping; no network access at runtime.
 
-[1.0.0]: https://github.com/konradslomiany/copilot-usage-extension/releases/tag/v1.0.0
+[1.0.0]: https://github.com/Hagane3/copilot-usage-extension/releases/tag/v1.0.0

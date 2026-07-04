@@ -3,16 +3,17 @@
   "displayName": "Copilot Credits Tracker",
   "description": "Shows monthly GitHub Copilot AI credit usage from local Copilot Chat debug logs",
   "version": "1.0.0",
-  "publisher": "konradslomiany",
+  "publisher": "hagane3333",
   "license": "MIT",
+  "icon": "images/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/konradslomiany/copilot-usage-extension.git"
+    "url": "https://github.com/Hagane3/copilot-usage-extension.git"
   },
   "bugs": {
-    "url": "https://github.com/konradslomiany/copilot-usage-extension/issues"
+    "url": "https://github.com/Hagane3/copilot-usage-extension/issues"
   },
-  "homepage": "https://github.com/konradslomiany/copilot-usage-extension#readme",
+  "homepage": "https://github.com/Hagane3/copilot-usage-extension#readme",
   "keywords": [
     "copilot",
     "github copilot",
@@ -25,8 +26,12 @@
     "vscode": "^1.80.0"
   },
   "categories": ["Other"],
+  "galleryBanner": {
+    "color": "#1e3a5f",
+    "theme": "dark"
+  },
   "activationEvents": ["onStartupFinished"],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -71,11 +76,14 @@
     "test": "npm run compile && node --test out/test/usageParser.test.js out/test/monthlyAggregator.test.js",
     "dev:fixtures": "node scripts/generateDevFixtures.js",
     "dev:host": "bash scripts/run-dev-host.sh",
-    "vscode:prepublish": "npm run build"
+    "vscode:prepublish": "npm run build",
+    "package": "npm run build && vsce package",
+    "publish:marketplace": "npm run build && vsce publish"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^3.7.0",
     "esbuild": "^0.25.0",
     "typescript": "^5.4.0"
   }

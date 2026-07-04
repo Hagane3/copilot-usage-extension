@@ -70,11 +70,13 @@ Command **Copilot Credits: Show Raw Event Diagnostics** — lists log files, per
 
 ### From VS Code Marketplace
 
-*(Not published yet — see [PUBLISHING.md](./PUBLISHING.md) for how to package and publish.)*
-
 ```
 Extensions → search "Copilot Credits Tracker" → Install
 ```
+
+Or: [marketplace.visualstudio.com/items?itemName=hagane3333.copilot-credits-tracker](https://marketplace.visualstudio.com/items?itemName=hagane3333.copilot-credits-tracker)
+
+*(Link works after first publish — see [PUBLISHING.md](./PUBLISHING.md).)*
 
 ### From a `.vsix` file (internal / company)
 
@@ -115,9 +117,9 @@ Extensions → … → Install from VSIX…
 
 | Platform | Path |
 |---|---|
-| macOS | `~/Library/Application Support/Code/User/globalStorage/konradslomiany.copilot-credits-tracker/` |
-| Windows | `%APPDATA%\Code\User\globalStorage\konradslomiany.copilot-credits-tracker\` |
-| Linux | `~/.config/Code/User/globalStorage/konradslomiany.copilot-credits-tracker/` |
+| macOS | `~/Library/Application Support/Code/User/globalStorage/hagane3333.copilot-credits-tracker/` |
+| Windows | `%APPDATA%\Code\User\globalStorage\hagane3333.copilot-credits-tracker\` |
+| Linux | `~/.config/Code/User/globalStorage/hagane3333.copilot-credits-tracker/` |
 
 Monthly files: `events-2026-06.jsonl`, `events-2026-07.jsonl`, …
 
@@ -142,7 +144,7 @@ After the first week with the extension active, numbers should closely track you
 ## Development
 
 ```bash
-git clone https://github.com/konradslomiany/copilot-usage-extension.git
+git clone https://github.com/Hagane3/copilot-usage-extension.git
 cd copilot-usage-extension
 npm install
 npm run compile
@@ -228,7 +230,7 @@ git add .
 git commit -m "Release v1.0.0"
 
 # 3. Tag and push
-git remote add origin https://github.com/konradslomiany/copilot-usage-extension.git
+git remote add origin https://github.com/Hagane3/copilot-usage-extension.git
 git branch -M main
 git push -u origin main
 git tag v1.0.0
