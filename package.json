@@ -2,7 +2,7 @@
   "name": "copilot-credits-tracker",
   "displayName": "Copilot Credits Tracker",
   "description": "Shows monthly GitHub Copilot AI credit usage from local Copilot Chat debug logs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "hagane3333",
   "license": "MIT",
   "icon": "images/icon.png",

@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.0.1] - 2026-07-04
+
+### Changed
+
+- README rewritten for end users (Marketplace listing).
+- Marketplace publisher set to `hagane3333`.
+
 ## [1.0.0] - 2026-07-04
 
 ### Added
@@ -27,4 +34,5 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Metadata-only parsing and storage — no prompts, messages, or code persisted.
 - Webview CSP and HTML escaping; no network access at runtime.
 
+[1.0.1]: https://github.com/Hagane3/copilot-usage-extension/releases/tag/v1.0.1
 [1.0.0]: https://github.com/Hagane3/copilot-usage-extension/releases/tag/v1.0.0
