@@ -1,0 +1,82 @@
+{
+  "name": "copilot-credits-tracker",
+  "displayName": "Copilot Credits Tracker",
+  "description": "Shows monthly GitHub Copilot AI credit usage from local Copilot Chat debug logs",
+  "version": "1.0.0",
+  "publisher": "konradslomiany",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/konradslomiany/copilot-usage-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/konradslomiany/copilot-usage-extension/issues"
+  },
+  "homepage": "https://github.com/konradslomiany/copilot-usage-extension#readme",
+  "keywords": [
+    "copilot",
+    "github copilot",
+    "ai credits",
+    "usage",
+    "billing",
+    "aiu"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "copilotCredits.showMonthlyUsage",
+        "title": "Copilot Credits: Show Monthly Usage"
+      },
+      {
+        "command": "copilotCredits.refresh",
+        "title": "Copilot Credits: Refresh"
+      },
+      {
+        "command": "copilotCredits.showDiagnostics",
+        "title": "Copilot Credits: Show Raw Event Diagnostics"
+      }
+    ],
+    "configuration": {
+      "title": "Copilot Credits",
+      "properties": {
+        "copilotCredits.monthlyBudgetAiu": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "Your personal monthly AIU budget (0 = disabled). Tip: divide your organisation's pool by the number of users. Shown as a progress bar in the usage chart."
+        },
+        "copilotCredits.expensiveRequestThresholdAiu": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "Show a VS Code notification when a single request costs more than this many AIU (0 = disabled)."
+        },
+        "copilotCredits.useDevFixtures": {
+          "type": "boolean",
+          "default": false,
+          "description": "Development only: read synthetic Copilot logs from dev-fixtures/ in the extension folder instead of real VS Code workspaceStorage."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p tsconfig.json",
+    "build": "node esbuild.js",
+    "test": "npm run compile && node --test out/test/usageParser.test.js out/test/monthlyAggregator.test.js",
+    "dev:fixtures": "node scripts/generateDevFixtures.js",
+    "dev:host": "bash scripts/run-dev-host.sh",
+    "vscode:prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.4.0"
+  }
+}

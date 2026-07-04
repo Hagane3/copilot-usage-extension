@@ -1,0 +1,9 @@
+node_modules/
+out/
+dist/
+*.vsix
+.DS_Store
+
+dev-fixtures/store/
+dev-fixtures/workspaceStorage/
+dev-fixtures/manifest.json
