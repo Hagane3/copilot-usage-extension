@@ -95,16 +95,10 @@ async function collectWorkspaceStorageDirs(editorDataDir: string): Promise<strin
 
 /**
  * Scans workspaceStorage directories for Copilot Chat debug log files.
- *
- * When `extraRoots` is provided (dev fixtures), those directories are scanned
- * in addition to the real VS Code workspaceStorage paths.
  */
-export async function findLogFiles(extraRoots: string[] = []): Promise<string[]> {
+export async function findLogFiles(): Promise<string[]> {
   const editorDataDir = getVsCodeDataDir();
-  const workspaceStorageDirs = [
-    ...(await collectWorkspaceStorageDirs(editorDataDir)),
-    ...extraRoots.map((r) => path.resolve(r)),
-  ];
+  const workspaceStorageDirs = await collectWorkspaceStorageDirs(editorDataDir);
 
   const COPILOT_DIR_NAMES = ['GitHub.copilot-chat', 'github.copilot-chat'];
   const candidates: string[] = [];

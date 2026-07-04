@@ -1,8 +1,6 @@
 .vscode/**
 .vscode-test/**
 src/**
-scripts/**
-dev-fixtures/**
 out/**
 node_modules/**
 .gitignore
